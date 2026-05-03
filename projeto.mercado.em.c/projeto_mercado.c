@@ -22,24 +22,36 @@ o total de acordo com os produtos e quantidades inseridas no carrinho de compra.
 #include <stdio.h>
 #include <stdlib.h>
 
-#define MAX_PRODUTOS 10
+// Aqui estou definindo um limite de no máximo 10 produtos que podem ser cadastrados.
+#define MAX_PRODUTOS 3
 
+// Esta daqui é a estrutura para o armazenamento das informações dos itens cadastrados.
 struct produto
 {
   char nome[50];
   float preco;
 };
 
-int cadastro_produto(struct produto *produtos, int *qty_produtos)
+/*
+Aqui foi feita a função para cadastrar os produtos, ela recebe o ararray de produtos
+e a quantidade de produtos cadastrados, para poder somar a quantidade de produtos
+cadastrados a cada novo cadastro.
+*/
+int cadastro_produto(struct produto *produtos, int *qty_produtos, int posicao)
 {
   printf("Digite o nome do produto: ");
-  scanf("%s", produtos->nome);
+  scanf("%s", produtos[posicao].nome); // Agora vai dar para colocar o nome do produto sem sobrescrever o nome do produto anterior.
   printf("Digite o preço do produto: ");
-  scanf("%f", &produtos->preco);
+  scanf("%f", &produtos[posicao].preco); // Agora vai dar para colocar o preço do produto sem sobrescrever o preço do produto anterior.
   (*qty_produtos)++;
   return 0;
 }
-
+/*
+Aqui foi feita a função para mostrar os produtos que foram cadastrados, ela vai
+receber o array de produtos e a quantidade de produtos cadastrados,
+para poder mostrar somente os produtos que foram cadastrados,
+e não mostrar os espaços vazios do array.
+*/
 int mostrar_produtos_cadastrados(struct produto *produtos, int *qty_produtos)
 {
   printf("Produtos cadastrados:\n");
@@ -55,7 +67,10 @@ int main()
   int qty_produtos = 0;
   struct produto produtos[MAX_PRODUTOS];
 
-  cadastro_produto(produtos, &qty_produtos);
+  for (int i = 0; i < MAX_PRODUTOS; i++)
+  {
+    cadastro_produto(produtos, &qty_produtos, i);
+  }
   mostrar_produtos_cadastrados(produtos, &qty_produtos);
 
   return 0;
