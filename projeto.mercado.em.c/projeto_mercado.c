@@ -30,15 +30,31 @@ struct produto
 {
   char nome[50];
   float preco;
+  int codigo_produto;
 };
 
 int cadastro_produto(struct produto *produtos, int *qty_produtos, int posicao);
 void mostrar_produtos_cadastrados(struct produto *produtos, int *qty_produtos);
+void adicionar_produto_carrinho(struct produto *produtos, int *qty_produtos);
+void carrinho_compras(struct produto *produtos, int *qty_produtos);
 
 int main()
 {
   int qty_produtos = 0;
+  int opcao;
   struct produto produtos[MAX_PRODUTOS];
+
+  /* while (1)
+   {
+     printf("Bem-vindo ao mercado Bom Preço!\n");
+     printf("1 - Funcionários\n");
+     printf("2 - Clientes\n");
+     printf("3 - Sair\n");
+     printf("Escolha uma opção: ");
+     scanf("%d", &opcao);
+
+     break;
+   }*/
 
   for (int i = 0; i < MAX_PRODUTOS; i++)
   {
@@ -57,6 +73,8 @@ cadastrados a cada novo cadastro.
 */
 int cadastro_produto(struct produto *produtos, int *qty_produtos, int posicao)
 {
+  printf("Qual é o código do produto? ");
+  scanf("%d", &produtos[posicao].codigo_produto); // Coloquei o código do produto agora.
   printf("Digite o nome do produto: ");
   scanf("%s", produtos[posicao].nome); // Agora vai dar para colocar o nome do produto sem sobrescrever o nome do produto anterior.
   printf("Digite o preço do produto: ");
@@ -72,10 +90,27 @@ e não mostrar os espaços vazios do array.
 */
 void mostrar_produtos_cadastrados(struct produto *produtos, int *qty_produtos)
 {
-  printf("Produtos cadastrados:\n");
+  printf("Estes são os produtos cadastrados no nosso sistema:\n");
   for (int i = 0; i < *qty_produtos; i++)
   {
-    printf("%d. %s -> R$%.2f\n", i + 1, produtos[i].nome, produtos[i].preco);
+    printf("%d. Código:%d Produto: %s Preço: R$%.2f\n", i + 1, produtos[i].codigo_produto, produtos[i].nome, produtos[i].preco);
   }
+  return 0;
+}
+/*
+Aqui eu vou fazer a funçao para adicionar os produtos no carrinho de compras.
+*/
+void adicionar_produto_carrinho(struct produto *produtos, int *qty_produtos)
+{
+
+  return 0;
+}
+
+/*
+Aqui eu vou fazer a função para mostrar os produtos que estão no carrinho de compras.
+*/
+void carrinho_compras(struct produto *produtos, int *qty_produtos)
+{
+
   return 0;
 }
