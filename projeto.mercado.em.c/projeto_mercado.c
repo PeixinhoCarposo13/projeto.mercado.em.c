@@ -32,9 +32,27 @@ struct produto
   float preco;
 };
 
+int cadastro_produto(struct produto *produtos, int *qty_produtos, int posicao);
+void mostrar_produtos_cadastrados(struct produto *produtos, int *qty_produtos);
+
+int main()
+{
+  int qty_produtos = 0;
+  struct produto produtos[MAX_PRODUTOS];
+
+  for (int i = 0; i < MAX_PRODUTOS; i++)
+  {
+    cadastro_produto(produtos, &qty_produtos, i);
+  }
+  mostrar_produtos_cadastrados(produtos, &qty_produtos);
+
+  return 0;
+}
+
 /*
 Aqui foi feita a função para cadastrar os produtos, ela recebe o ararray de produtos
-e a quantidade de produtos cadastrados, para poder somar a quantidade de produtos
+a quantidade de produtos cadastrados e a posição onde o produto será cadastrado,
+para poder somar a quantidade de produtos
 cadastrados a cada novo cadastro.
 */
 int cadastro_produto(struct produto *produtos, int *qty_produtos, int posicao)
@@ -52,26 +70,12 @@ receber o array de produtos e a quantidade de produtos cadastrados,
 para poder mostrar somente os produtos que foram cadastrados,
 e não mostrar os espaços vazios do array.
 */
-int mostrar_produtos_cadastrados(struct produto *produtos, int *qty_produtos)
+void mostrar_produtos_cadastrados(struct produto *produtos, int *qty_produtos)
 {
   printf("Produtos cadastrados:\n");
   for (int i = 0; i < *qty_produtos; i++)
   {
     printf("%d. %s -> R$%.2f\n", i + 1, produtos[i].nome, produtos[i].preco);
   }
-  return 0;
-}
-
-int main()
-{
-  int qty_produtos = 0;
-  struct produto produtos[MAX_PRODUTOS];
-
-  for (int i = 0; i < MAX_PRODUTOS; i++)
-  {
-    cadastro_produto(produtos, &qty_produtos, i);
-  }
-  mostrar_produtos_cadastrados(produtos, &qty_produtos);
-
   return 0;
 }

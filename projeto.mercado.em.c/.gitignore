@@ -1,0 +1,22 @@
+# VS Code
+.vscode/
+
+# Arquivos compilados (C)
+*.o
+*.out
+*.exe
+
+# Pastas de saída
+output/
+build/
+
+# Logs
+*.log
+
+# Sistema
+.DS_Store
+Thumbs.db
+
+# Temporários
+*.tmp
+*.swp
