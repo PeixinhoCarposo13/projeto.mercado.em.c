@@ -33,36 +33,98 @@ struct produto
   int codigo_produto;
 };
 
+// Esta daqui é a estrutura para o armazenamento dos itens que estão no carrinho de compras.
+struct carrinho
+{
+  char nome[50];
+  float preco;
+  int codigo_produto;
+  int quantidade;
+};
+
 int cadastro_produto(struct produto *produtos, int *qty_produtos, int posicao);
 void mostrar_produtos_cadastrados(struct produto *produtos, int *qty_produtos);
 void adicionar_produto_carrinho(struct produto *produtos, int *qty_produtos);
-void carrinho_compras(struct produto *produtos, int *qty_produtos);
+void carrinho_compras(struct carrinho *carrinho, int *qty_carrinho);
+int interacao_funcionario();
 
 int main()
 {
   int qty_produtos = 0;
-  int opcao;
+  int opcao, opcao_funcionarios = 0, opcao_clientes = 0;
   struct produto produtos[MAX_PRODUTOS];
 
-  /* while (1)
-   {
-     printf("Bem-vindo ao mercado Bom Preço!\n");
-     printf("1 - Funcionários\n");
-     printf("2 - Clientes\n");
-     printf("3 - Sair\n");
-     printf("Escolha uma opção: ");
-     scanf("%d", &opcao);
-
-     break;
-   }*/
-
-  for (int i = 0; i < MAX_PRODUTOS; i++)
+  printf("Bem-vindo ao mercado Bom Preço!\n");
+  while (1)
   {
-    cadastro_produto(produtos, &qty_produtos, i);
+    printf("1 - Funcionários\n");
+    printf("2 - Clientes\n");
+    printf("3 - Sair\n");
+    printf("Escolha uma opção: ");
+    scanf("%d", &opcao);
+
+    if (opcao == 1)
+    {
+      printf("Opção de funcionários selecionada.\n");
+      while (1)
+      {
+        opcao_funcionarios = interacao_funcionario();
+
+        if (opcao_funcionarios == 1)
+        {
+          if (qty_produtos < MAX_PRODUTOS)
+          {
+            cadastro_produto(produtos, &qty_produtos, qty_produtos);
+          }
+          else
+          {
+            printf("Limite de produtos cadastrados atingido! Não é possível cadastrar mais produtos.\n");
+          }
+        }
+        else if (opcao_funcionarios == 2)
+        {
+          mostrar_produtos_cadastrados(produtos, &qty_produtos);
+        }
+        else if (opcao_funcionarios == 3)
+        {
+          printf("Opção de apagar produto selecionada.\n");
+        }
+        else if (opcao_funcionarios == 4)
+        {
+          break;
+        }
+      }
+    }
+    else if (opcao == 2)
+    {
+      printf("Opção de clientes selecionada.\n");
+    }
+    else if (opcao == 3)
+    {
+      printf("Obrigado por usar o mercado Bom Preço! Até a próxima!\n");
+    }
+    else
+    {
+      printf("Opção inválida! Por favor, escolha uma opção válida.\n");
+    }
   }
-  mostrar_produtos_cadastrados(produtos, &qty_produtos);
 
   return 0;
+}
+
+/*
+Função com as perguntas padrão para os funcionários e recebimento de opção.
+*/
+int interacao_funcionario()
+{
+  int opcao_funcionarios;
+  printf("1 - Cadastrar produto\n");
+  printf("2 - Listar produtos cadastrados\n");
+  printf("3 - Apagar produto\n");
+  printf("4 - Voltar ao menu principal\n");
+  printf("Escolha uma opção: ");
+  scanf("%d", &opcao_funcionarios);
+  return opcao_funcionarios;
 }
 
 /*
@@ -109,7 +171,7 @@ void adicionar_produto_carrinho(struct produto *produtos, int *qty_produtos)
 /*
 Aqui eu vou fazer a função para mostrar os produtos que estão no carrinho de compras.
 */
-void carrinho_compras(struct produto *produtos, int *qty_produtos)
+void carrinho_compras(struct carrinho *carrinho, int *qty_carrinho)
 {
 
   return 0;
