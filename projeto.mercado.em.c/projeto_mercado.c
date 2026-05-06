@@ -50,13 +50,16 @@ void interacao_funcionario(struct produto *produtos, int *qty_produtos);
 int interacao_sistema();
 void mostrar_produtos_cadastrados(struct produto *produtos, int *qty_produtos);
 int pergunta_inicial_funcionario();
+int pergunta_inicial_cliente();
 void remover_produto(struct produto *produtos, int *qty_produtos);
 
 int main()
 {
-  int qty_produtos = 0;
+  int qty_produtos_cadastro = 0, qty_produtos_carrinho = 0;
   int opcao, opcao_funcionarios = 0, opcao_clientes = 0;
+
   struct produto produtos[MAX_PRODUTOS];
+  struct carrinho carrinho[100];
 
   printf("Bem-vindo ao mercado Bom Preço!\n");
   while (1)
@@ -65,15 +68,39 @@ int main()
 
     if (opcao == 1)
     {
-      interacao_funcionario(produtos, &qty_produtos);
+      interacao_funcionario(produtos, &qty_produtos_cadastro);
     }
     else if (opcao == 2)
     {
       printf("Opção de clientes selecionada.\n");
+      opcao_clientes = pergunta_inicial_cliente();
+
+      if (opcao_clientes == 1)
+      {
+        adicionar_produto_carrinho(produtos, &qty_produtos_cadastro);
+      }
+      else if (opcao_clientes == 2)
+      {
+        // mostrar_produtos_cadastrados(produtos, &qty_produtos_carrinho);
+        continue;
+      }
+      else if (opcao_clientes == 3)
+      {
+        printf("Função para apagar item do carrinho ainda não implementada!\n");
+      }
+      else if (opcao_clientes == 4)
+      {
+        continue; // Volta para o menu principal
+      }
+      else
+      {
+        printf("Opção inválida! Por favor, escolha uma opção válida.\n");
+      }
     }
     else if (opcao == 3)
     {
       printf("Obrigado por usar o mercado Bom Preço! Até a próxima!\n");
+      break;
     }
     else
     {
@@ -86,11 +113,18 @@ int main()
 
 /*
 Aqui eu vou fazer a funçao para adicionar os produtos no carrinho de compras.
+Vai funcionar assim:
+1 - Vai ser mostrado os produtos cadastrados para o cliente escolher qual ele quer comprar.
+2 - O cliente digita o código do produto que deseja comprar.
+3 - O sistema vai verificar se o produto exeste no cadastro, se existir ele vai verificar se o
+produto já existe no carrinho, se exiistir ele vai falar que esse produto já existe e vai perguntar qual
+vai ser a nova quantidade, se não existir ele vai adicionar o produto no carrinho e perguntar a quantidade.
 */
 void adicionar_produto_carrinho(struct produto *produtos, int *qty_produtos)
 {
+  mostrar_produtos_cadastrados(produtos, qty_produtos);
 
-  return 0;
+  return;
 }
 
 /*
@@ -135,9 +169,9 @@ void interacao_funcionario(struct produto *produtos, int *qty_produtos)
 
     if (opcao_funcionarios == 1)
     {
-      if (qty_produtos < MAX_PRODUTOS)
+      if (*qty_produtos < MAX_PRODUTOS)
       {
-        cadastro_produto(produtos, &qty_produtos, qty_produtos); // Aqui está acontecendo o cadastro dos produtos;
+        cadastro_produto(produtos, qty_produtos, *qty_produtos); // Aqui está acontecendo o cadastro dos produtos;
       }
       else
       {
@@ -146,11 +180,11 @@ void interacao_funcionario(struct produto *produtos, int *qty_produtos)
     }
     else if (opcao_funcionarios == 2)
     {
-      mostrar_produtos_cadastrados(produtos, &qty_produtos); // Aqui caso o funcionário queira vai listar os produtos cadastrados;
+      mostrar_produtos_cadastrados(produtos, qty_produtos); // Aqui caso o funcionário queira vai listar os produtos cadastrados;
     }
     else if (opcao_funcionarios == 3)
     {
-      remover_produto(produtos, &qty_produtos); // Aqui caso o funcionário queira apagar um produto cadastrado, ele pode fazer isso;
+      remover_produto(produtos, qty_produtos); // Aqui caso o funcionário queira apagar um produto cadastrado, ele pode fazer isso;
     }
     else if (opcao_funcionarios == 4)
     {
@@ -205,6 +239,21 @@ int pergunta_inicial_funcionario()
   printf("Escolha uma opção: ");
   scanf("%d", &opcao_funcionarios);
   return opcao_funcionarios;
+}
+
+/*
+Função com as perguntas padrão para os clientes e recebimento de opção.
+*/
+int pergunta_inicial_cliente()
+{
+  int opcao_clientes;
+  printf("1 - Comprar produto\n");
+  printf("2 - Listar produtos disponíveis\n");
+  printf("3 - Apagar item do carrinho\n");
+  printf("4 - Voltar ao menu principal\n");
+  printf("Escolha uma opção: ");
+  scanf("%d", &opcao_clientes);
+  return opcao_clientes;
 }
 
 /*
