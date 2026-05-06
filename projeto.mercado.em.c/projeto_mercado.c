@@ -42,11 +42,15 @@ struct carrinho
   int quantidade;
 };
 
-int cadastro_produto(struct produto *produtos, int *qty_produtos, int posicao);
-void mostrar_produtos_cadastrados(struct produto *produtos, int *qty_produtos);
+// Arrumei as funções em ordem alfabetica para eu não me perder;
 void adicionar_produto_carrinho(struct produto *produtos, int *qty_produtos);
+int cadastro_produto(struct produto *produtos, int *qty_produtos, int posicao);
 void carrinho_compras(struct carrinho *carrinho, int *qty_carrinho);
-int interacao_funcionario();
+void interacao_funcionario(struct produto *produtos, int *qty_produtos);
+int interacao_sistema();
+void mostrar_produtos_cadastrados(struct produto *produtos, int *qty_produtos);
+int pergunta_inicial_funcionario();
+void remover_produto(struct produto *produtos, int *qty_produtos);
 
 int main()
 {
@@ -57,43 +61,11 @@ int main()
   printf("Bem-vindo ao mercado Bom Preço!\n");
   while (1)
   {
-    printf("1 - Funcionários\n");
-    printf("2 - Clientes\n");
-    printf("3 - Sair\n");
-    printf("Escolha uma opção: ");
-    scanf("%d", &opcao);
+    opcao = interacao_sistema(); // Aqui rola a interação inicial do sistema com o usuário;
 
     if (opcao == 1)
     {
-      printf("Opção de funcionários selecionada.\n");
-      while (1)
-      {
-        opcao_funcionarios = interacao_funcionario();
-
-        if (opcao_funcionarios == 1)
-        {
-          if (qty_produtos < MAX_PRODUTOS)
-          {
-            cadastro_produto(produtos, &qty_produtos, qty_produtos);
-          }
-          else
-          {
-            printf("Limite de produtos cadastrados atingido! Não é possível cadastrar mais produtos.\n");
-          }
-        }
-        else if (opcao_funcionarios == 2)
-        {
-          mostrar_produtos_cadastrados(produtos, &qty_produtos);
-        }
-        else if (opcao_funcionarios == 3)
-        {
-          printf("Opção de apagar produto selecionada.\n");
-        }
-        else if (opcao_funcionarios == 4)
-        {
-          break;
-        }
-      }
+      interacao_funcionario(produtos, &qty_produtos);
     }
     else if (opcao == 2)
     {
@@ -113,18 +85,21 @@ int main()
 }
 
 /*
-Função com as perguntas padrão para os funcionários e recebimento de opção.
+Aqui eu vou fazer a funçao para adicionar os produtos no carrinho de compras.
 */
-int interacao_funcionario()
+void adicionar_produto_carrinho(struct produto *produtos, int *qty_produtos)
 {
-  int opcao_funcionarios;
-  printf("1 - Cadastrar produto\n");
-  printf("2 - Listar produtos cadastrados\n");
-  printf("3 - Apagar produto\n");
-  printf("4 - Voltar ao menu principal\n");
-  printf("Escolha uma opção: ");
-  scanf("%d", &opcao_funcionarios);
-  return opcao_funcionarios;
+
+  return 0;
+}
+
+/*
+Aqui eu vou fazer a função para mostrar os produtos que estão no carrinho de compras.
+*/
+void carrinho_compras(struct carrinho *carrinho, int *qty_carrinho)
+{
+
+  return 0;
 }
 
 /*
@@ -145,6 +120,64 @@ int cadastro_produto(struct produto *produtos, int *qty_produtos, int posicao)
   return 0;
 }
 /*
+Aqui eu vou fazer a função da interação completa do funcionário com o sistema,
+onde ele vai escolher as opções de cadastrar produto, listar produtos cadastrados,
+apagar produto ou voltar ao menu principal.
+*/
+void interacao_funcionario(struct produto *produtos, int *qty_produtos)
+{
+  int opcao_funcionarios = 0;
+
+  printf("Opção de funcionários selecionada.\n");
+  while (1)
+  {
+    opcao_funcionarios = pergunta_inicial_funcionario(); // Aqui rola a interação do funcionário com o sistema;
+
+    if (opcao_funcionarios == 1)
+    {
+      if (qty_produtos < MAX_PRODUTOS)
+      {
+        cadastro_produto(produtos, &qty_produtos, qty_produtos); // Aqui está acontecendo o cadastro dos produtos;
+      }
+      else
+      {
+        printf("Limite de produtos cadastrados atingido! Não é possível cadastrar mais produtos.\n");
+      }
+    }
+    else if (opcao_funcionarios == 2)
+    {
+      mostrar_produtos_cadastrados(produtos, &qty_produtos); // Aqui caso o funcionário queira vai listar os produtos cadastrados;
+    }
+    else if (opcao_funcionarios == 3)
+    {
+      remover_produto(produtos, &qty_produtos); // Aqui caso o funcionário queira apagar um produto cadastrado, ele pode fazer isso;
+    }
+    else if (opcao_funcionarios == 4)
+    {
+      break;
+    }
+    else
+    {
+      printf("Opção inválida! Por favor, escolha uma opção válida.\n");
+    }
+  }
+}
+
+/*
+Função com as perguntas padrão para o sistema.
+*/
+int interacao_sistema()
+{
+  int opcao;
+  printf("1 - Funcionários\n");
+  printf("2 - Clientes\n");
+  printf("3 - Sair\n");
+  printf("Escolha uma opção: ");
+  scanf("%d", &opcao);
+  return opcao;
+}
+
+/*
 Aqui foi feita a função para mostrar os produtos que foram cadastrados, ela vai
 receber o array de produtos e a quantidade de produtos cadastrados,
 para poder mostrar somente os produtos que foram cadastrados,
@@ -157,22 +190,59 @@ void mostrar_produtos_cadastrados(struct produto *produtos, int *qty_produtos)
   {
     printf("%d. Código:%d Produto: %s Preço: R$%.2f\n", i + 1, produtos[i].codigo_produto, produtos[i].nome, produtos[i].preco);
   }
-  return 0;
-}
-/*
-Aqui eu vou fazer a funçao para adicionar os produtos no carrinho de compras.
-*/
-void adicionar_produto_carrinho(struct produto *produtos, int *qty_produtos)
-{
-
-  return 0;
 }
 
 /*
-Aqui eu vou fazer a função para mostrar os produtos que estão no carrinho de compras.
+Função com as perguntas padrão para os funcionários e recebimento de opção.
 */
-void carrinho_compras(struct carrinho *carrinho, int *qty_carrinho)
+int pergunta_inicial_funcionario()
 {
+  int opcao_funcionarios;
+  printf("1 - Cadastrar produto\n");
+  printf("2 - Listar produtos cadastrados\n");
+  printf("3 - Apagar produto\n");
+  printf("4 - Voltar ao menu principal\n");
+  printf("Escolha uma opção: ");
+  scanf("%d", &opcao_funcionarios);
+  return opcao_funcionarios;
+}
 
-  return 0;
+/*
+Aqui eu vou fazer uma função para apagar os intens, ela funciona dessa maneira:
+** Esqueci de mostrar os produtos que estão cadastrados para o funcionário escolher qual ele quer apagar;
+1- O usuário digita o código do produto que deseja remover.
+2- O sistema percorre o array de produtos para encontrar o produto com o código correspondente.
+3- Se o produto for encontrado, ele é removido do array (deslocando os outros produtos para sobreescrever ele).
+4- A quantidade de produtos cadastrados é diminuída em 1.
+*/
+void remover_produto(struct produto *produtos, int *qty_produtos)
+{
+  int codigo;
+
+  // Mostrando os produtos cadastrados para o funcionário escolher qual ele quer apagar;
+  mostrar_produtos_cadastrados(produtos, qty_produtos);
+
+  printf("Digite o código do produto que deseja remover: ");
+  scanf("%d", &codigo);
+
+  int mostrar = codigo; // preciso disso para mostrar o código que foi apagado;
+
+  for (int i = 0; i < *qty_produtos; i++)
+  {
+    if (produtos[i].codigo_produto == codigo)
+    {
+      // desloca os produtos para sobrescrever o produto a ser removido
+      for (int j = i; j < *qty_produtos - 1; j++)
+      {
+        produtos[j] = produtos[j + 1];
+      }
+
+      (*qty_produtos)--; // diminui a quantidade
+
+      printf("Produto com o código %d foi removido com sucesso!\n", mostrar);
+      return;
+    }
+  }
+
+  printf("Produto não encontrado!\n");
 }
